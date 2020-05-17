@@ -8,31 +8,25 @@
         
         if slen < plen:
             return list1
-        left, right = 0, 0
         
-        while right < plen:
-            if p[right] in pdict:
-                pdict[p[right]] += 1
+        for i in range(plen):
+            if p[i] in pdict:
+                pdict[p[i]] += 1
             else:
-                pdict[p[right]] = 1
-            if s[right] in sdict:
-                sdict[s[right]] += 1
-            else:
-                sdict[s[right]] = 1
-            right += 1
-
-        right -= 1    
-        while right < slen:
-            if pdict == sdict:
-                list1.append(left)
-            right += 1 
-            if right != slen:
-                if s[right] in sdict:
-                    sdict[s[right]] += 1
-                else:
-                    sdict[s[right]] = 1
-            sdict[s[left]] -= 1
-            left += 1
-            #print(sdict,pdict)
+                pdict[p[i]] = 1
+ 
             
-        return list1
+        for i in range(slen-plen+1):
+            if i == 0:
+                for j in range(i,plen):
+                    if s[j] in sdict:
+                        sdict[s[j]] += 1
+                    else:
+                        sdict[s[j]] = 1
+            else:
+                sdict[s[i-1]] -= 1
+                if i+plen <= slen:
+                    sdict[s[i+plen-1]] += 1
+            if pdict == sdict:
+                list1.append(i)
+        return list1  
